@@ -269,7 +269,14 @@ function html5_style_remove($tag)
 {
     return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
 }
-
+// Remove CSS Version Numbers for Page Speed
+function remove_cssjs_ver( $src ) {
+    if( strpos( $src, '?ver=' ) )
+        $src = remove_query_arg( 'ver', $src );
+    return $src;
+}
+add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
+add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 ); 
 // Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
 function remove_thumbnail_dimensions( $html )
 {
